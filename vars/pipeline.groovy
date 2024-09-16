@@ -47,7 +47,7 @@ def runPipeline(){
                     container('docker') {
                         script {
                             sh "docker pull nexus-docker.nexus.svc.cluster.local:8083/jdk-base-image:1.0.0"
-                            dockerActions.buildDockerImage('src/main/docker/Dockerfile.toutou', env.DOCKER_IMAGE, env.DOCKER_REGISTRY_DOMAIN)
+                            buildDockerImage('src/main/docker/Dockerfile.toutou', env.DOCKER_IMAGE, env.DOCKER_REGISTRY_DOMAIN)
                         }
                     }
                 }
@@ -56,7 +56,7 @@ def runPipeline(){
                 steps {
                     container('kubehelm') {
                         script {
-                            helmActions.packageChart('quarkus-app', env.HELM_URL)
+                            packageChart('quarkus-app', env.HELM_URL)
                         }
                     }
                 }
@@ -65,7 +65,7 @@ def runPipeline(){
                 steps {
                     container('kubehelm') {
                         script {
-                            helmActions.deployChart('quarkus-app', env.HELM_URL)
+                            deployChart('quarkus-app', env.HELM_URL)
                             sh "kubectl --help"
                             sh "kubectl get pods"
                         }
