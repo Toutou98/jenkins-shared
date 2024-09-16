@@ -1,4 +1,4 @@
-def packageChart(String chartDir, String helmRepoUrl) {
+def call(String chartDir, String helmRepoUrl) {
     script {
         sh "helm package ${chartDir}"
         withCredentials([usernamePassword(credentialsId: 'nexus', usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {

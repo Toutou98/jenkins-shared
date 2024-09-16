@@ -1,4 +1,4 @@
-def buildDockerImage(String dockerfilePath, String imageName, String registryDomain) {
+def call(String dockerfilePath, String imageName, String registryDomain) {
     
     script {
         sh "docker build -f ${dockerfilePath} -t ${imageName} ."
