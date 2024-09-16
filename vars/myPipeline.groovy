@@ -19,7 +19,7 @@ def call(Map pipelineParams){
                     - --host=unix:///var/run/docker.sock
                     - --insecure-registry=nexus-docker.nexus.svc.cluster.local:8083
                     securityContext:
-                    privileged: true
+                      privileged: true
                   - name: kubehelm
                     image: 10.108.168.228:8083/kubehelm:1.0.0
                     command:
