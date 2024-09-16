@@ -8,23 +8,23 @@ def call(Map pipelineParams){
                 spec:
                 containers:
                 - name: maven
-                    image: maven:3.9.9-ibm-semeru-21-jammy
-                    command:
-                    - cat
-                    tty: true
+                  image: maven:3.9.9-ibm-semeru-21-jammy
+                  command:
+                  - cat
+                  tty: true
                 - name: docker
-                    image: docker:24.0.2-dind
-                    command:
-                    - dockerd
-                    - --host=unix:///var/run/docker.sock
-                    - --insecure-registry=nexus-docker.nexus.svc.cluster.local:8083
-                    securityContext:
-                    privileged: true
+                  image: docker:24.0.2-dind
+                  command:
+                  - dockerd
+                  - --host=unix:///var/run/docker.sock
+                  - --insecure-registry=nexus-docker.nexus.svc.cluster.local:8083
+                  securityContext:
+                  privileged: true
                 - name: kubehelm
-                    image: 10.108.168.228:8083/kubehelm:1.0.0
-                    command:
-                    - cat
-                    tty: true
+                  image: 10.108.168.228:8083/kubehelm:1.0.0
+                  command:
+                  - cat
+                  tty: true
                 """
             }
         }
