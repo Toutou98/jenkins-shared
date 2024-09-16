@@ -1,4 +1,4 @@
-def runPipeline(){
+def call(){
     pipeline {
         agent {
             kubernetes {
