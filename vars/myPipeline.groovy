@@ -75,7 +75,9 @@ def call(){
         }
         post {
             always {
-                cleanWs()
+                script {
+                    cleanWs()
+                }
             }
         }
     }
