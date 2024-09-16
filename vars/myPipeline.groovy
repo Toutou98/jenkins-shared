@@ -1,4 +1,4 @@
-def call(){
+def call(Map pipelineParams){
     pipeline {
         agent {
             kubernetes {
@@ -28,12 +28,6 @@ def call(){
                 """
             }
         }
-        environment {
-            HELM_URL = "http://my-nexus-nexus-repository-manager.nexus:8081/repository/helm-local-repo/"
-            DOCKER_REGISTRY = "http://nexus-docker.nexus.svc.cluster.local:8083"
-            DOCKER_REGISTRY_DOMAIN = "nexus-docker.nexus.svc.cluster.local:8083"
-            DOCKER_IMAGE = "getting-started:1.0.0"
-        }
         stages {
             stage('Build') {
                 steps {
@@ -47,7 +41,7 @@ def call(){
                     container('docker') {
                         script {
                             sh "docker pull nexus-docker.nexus.svc.cluster.local:8083/jdk-base-image:1.0.0"
-                            buildDockerImage('src/main/docker/Dockerfile.toutou', env.DOCKER_IMAGE, env.DOCKER_REGISTRY_DOMAIN)
+                            buildDockerImage(pipelineParams.dockerfile, pipelineParams.docker_image, pipelineParams.docker_registry_domain)
                         }
                     }
                 }
@@ -56,7 +50,7 @@ def call(){
                 steps {
                     container('kubehelm') {
                         script {
-                            packageChart('quarkus-app', env.HELM_URL)
+                            packageChart(pipelineParams.app_name, pipelineParams.helm_url)
                         }
                     }
                 }
@@ -65,7 +59,7 @@ def call(){
                 steps {
                     container('kubehelm') {
                         script {
-                            deployChart('quarkus-app', env.HELM_URL)
+                            deployChart(pipelineParams.app_name, pipelineParams.helm_url)
                             sh "kubectl --help"
                             sh "kubectl get pods"
                         }
@@ -75,9 +69,7 @@ def call(){
         }
         post {
             always {
-                script {
-                    cleanWs()
-                }
+                cleanWs()
             }
         }
     }
