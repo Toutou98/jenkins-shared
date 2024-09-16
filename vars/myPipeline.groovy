@@ -27,7 +27,7 @@ def call(Map pipelineParams){
                     tty: true
                 """
             }
-    }
+        }
         stages {
             stage('Build') {
                 steps {
